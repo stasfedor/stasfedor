@@ -7,12 +7,16 @@ namespace Components
     {
         [SerializeField] internal float _health;
 
-        [SerializeField] private UnityEvent _onDamage, _onDie;
+        [SerializeField] private UnityEvent _onDamage, _onDie, _onHeal;
 
-        public void ApplyDamage(float damageValue)
+        public void ApplyHealthDelta(float healthDelta)
         {
-            _health -= damageValue;
-            _onDamage?.Invoke();
+            _health += healthDelta;
+
+            if (healthDelta < 0) _onDamage?.Invoke();
+            
+            if (healthDelta > 0) _onHeal?.Invoke();
+            
             if (_health <= 0) _onDie?.Invoke();
         }
     }

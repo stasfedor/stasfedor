@@ -1,19 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Components
 {
-    public class DamageComponent : MonoBehaviour
+    public class ModifyHealthComponent : MonoBehaviour
     {
-        [SerializeField] private float _damage;
+        [SerializeField] private float _hpModify;
 
-        public void ApplyDamage(GameObject target)
+        public void ApplyModifyHealth(GameObject target)
         {
             var healthComponent = target.GetComponent<HealthComponent>();
             if (healthComponent != null)
             {
-                healthComponent.ApplyDamage(_damage);
+                healthComponent.ApplyHealthDelta(_hpModify);
             }
         }
     }

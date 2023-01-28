@@ -18,8 +18,8 @@ namespace PlayerScripts
 
         internal bool _isJumping;
         private bool _canDoubleJump;
-        
-        
+
+
         private bool _isStand => PlayerScript.PlayerCollisionScript._isStand;
 
         
@@ -66,17 +66,23 @@ namespace PlayerScripts
             float yVelocity = _rb2d.velocity.y;
             _isJumping = _direction.y > 0;
 
+            if (_isStand)
+            {
+                _canDoubleJump = true;
+            }
+
             if (_isJumping)
             {
                 yVelocity = CalculateJumpVelocity(yVelocity);
                 if (_isStand && _rb2d.velocity.y <= 0.1f)
                 {
+                    _canDoubleJump = true;
                     _rb2d.AddForce(Vector2.up * _jumpingPower, ForceMode2D.Impulse);
                 }
-                DoubleJumpLogick();
+                
             }
 
-            if (_rb2d.velocity.y > 0 && _direction.y < .7f)
+            if (_rb2d.velocity.y > 0 && _direction.y < .7f && _isJumping)
             {
                 yVelocity *= 0.5f;
                 //_rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * 0.5f);
@@ -91,24 +97,16 @@ namespace PlayerScripts
 
             if (_isStand)
             {
+                _canDoubleJump = true;
                 yVelocity += _jumpingPower;
-            } else if (_canDoubleJump)
+            } 
+            if (_canDoubleJump)
             {
                 yVelocity = _jumpingPower;
                 _canDoubleJump = false;
             }
             return yVelocity;
         }
-
-        private void DoubleJumpLogick()
-        {
-            if (_isStand) _canDoubleJump = true;
-        }
-
-        //public void OnDamageJump()
-       // {
-       //     _rb2d.velocity = new Vector2(_rb2d.velocity.x, _damageJumpingSpeed);
-        //}
 
     }
 }

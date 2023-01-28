@@ -23,11 +23,14 @@ namespace PlayerScripts
         private static readonly int SpeedHorizontal = Animator.StringToHash("Speed horizontal");
         private static readonly int Jump            = Animator.StringToHash("IsJump");
         private static readonly int OnHit           = Animator.StringToHash("OnHit");
+        private static readonly int OnHeal          = Animator.StringToHash("OnHeal");
         private static readonly int Health          = Animator.StringToHash("Lifes");
 
         [SerializeField] private SpawnComponent _footStepParticles;
         
-        private float _damageJumpingSpeed => PlayerScript._jumpingPower * 5f;
+        private float _damageJumpingSpeed => PlayerScript._jumpingPower * PlayerScript._jumpDamageSpeedAlpha;
+
+        internal int _healValue;
 
         private void Awake()
         {
@@ -94,15 +97,22 @@ namespace PlayerScripts
 
         public void TakeDamage()
         {
-            if (_animator.GetFloat(Health) >= HealthComponent._health)
-            { 
-                _rb2d.velocity = new Vector2(_rb2d.velocity.x, _damageJumpingSpeed);
-                _animator.SetTrigger(OnHit);
-                _animator.SetFloat(Health, HealthComponent._health);
-                PlayerScript.PlayerParticlesScript.SpawnCoinsFromDamage();
-            }
+            PlayerScript.PlayerMovementScript._isJumping = false;
+            _rb2d.velocity = new Vector2(_rb2d.velocity.x, _damageJumpingSpeed);
+            _animator.SetTrigger(OnHit);
+            _animator.SetFloat(Health, HealthComponent._health);
+            PlayerScript.PlayerParticlesScript.SpawnCoinsFromDamage();
+        }
+        
+        public void TakeHeal()
+        {
+            _animator.SetTrigger(OnHeal);
+
+            _healValue = (int)Math.Ceiling(HealthComponent._health - _animator.GetFloat(Health));
+            
             _animator.SetFloat(Health, HealthComponent._health);
             
+            PlayerScript.PlayerParticlesScript.SpawnHealParticles();
         }
     }
 }

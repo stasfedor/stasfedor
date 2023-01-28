@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Components;
 
 namespace PlayerScripts
 {
@@ -8,11 +9,13 @@ namespace PlayerScripts
     {
         [SerializeField] private PlayerScript PlayerScript;
 
-        [SerializeField] private ParticleSystem _hitParticles;
+        [SerializeField] private ParticleSystem _hitParticles, _healParticles;
         
         [SerializeField] private Components.SpawnComponent _footStepParticles;
+        
+        [SerializeField] private HealthComponent HealthComponent;
 
-        internal void SpawnCoinsFromDamage()
+        public void SpawnCoinsFromDamage()
         {
             if (PlayerScript._coins > 0)
             {
@@ -36,6 +39,24 @@ namespace PlayerScripts
             Debug.Log($"{numCoinsToDispose} coins lost. Total coins: {PlayerScript._coins}");
         }
         
+         public void SpawnHealParticles()
+        {
+            SpawnHeal();
+        }
+
+        private void SpawnHeal()
+        {
+            _healParticles.gameObject.SetActive(true);
+            
+            var burst = _healParticles.emission.GetBurst(0);
+            burst.count = PlayerScript.PlayerAnimationScript._healValue;
+            _healParticles.emission.SetBurst(0, burst);
+            
+            _healParticles.Play();
+            
+            Debug.Log($"{PlayerScript.PlayerAnimationScript._healValue} heal pick up. Total health: {HealthComponent._health}");
+        }
+
         public void SpawnFootDust()
         { 
             _footStepParticles.Spawn();

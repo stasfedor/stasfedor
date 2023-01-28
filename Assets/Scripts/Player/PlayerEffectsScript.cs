@@ -8,7 +8,7 @@ namespace PlayerScripts
     {
         [SerializeField] private PlayerScript PlayerScript;
 
-        private int effect = 0;
+        //private int effect = 0;
 
 
     }

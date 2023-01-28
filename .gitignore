@@ -218,6 +218,27 @@ project.lock.json
 *.feature.xlsx.*
 *.Specs_*.html
 
+# Some
+/.sv
+*.exe
+*.log
+*.bin
+*.apk
+/Library/
+/Temp/
+/Assets/VSCode*
+/obj/
+/
+/out
+/.vscode
+*.sln
+*.userprefs
+*.csproj
+/.idea
+*.iml
+*.DotSettings.user
+/Assets/Plugins/Editor/JetBrains*
+
 # UWP Projects
 AppPackages/
 

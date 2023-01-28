@@ -22,6 +22,7 @@ namespace PlayerScripts
 
         internal float speed = 0f;
         [SerializeField] internal float _jumpingPower = 1f;
+        [SerializeField] internal float _jumpDamageSpeedAlpha;
 
         [Header("Player Stats")] 
         internal int _coins;
@@ -40,6 +41,11 @@ namespace PlayerScripts
         void Update()
         {
         
+        }
+        
+        void FixedUpdate()
+        {
+                
         }
         
         
