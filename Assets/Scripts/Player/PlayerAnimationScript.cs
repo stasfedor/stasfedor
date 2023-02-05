@@ -25,6 +25,7 @@ namespace PlayerScripts
         private static readonly int OnHit           = Animator.StringToHash("OnHit");
         private static readonly int OnHeal          = Animator.StringToHash("OnHeal");
         private static readonly int Health          = Animator.StringToHash("Lifes");
+        
 
         [SerializeField] private SpawnComponent _footStepParticles;
         
@@ -46,11 +47,12 @@ namespace PlayerScripts
 
         private void FixedUpdate()
         {
+            Flip();
             HorizontalSpeed();
             VerticalSpeed();
             OnTheGround();
             IsJump();
-            Flip();
+            
         }
 
         private void Update()
@@ -114,5 +116,6 @@ namespace PlayerScripts
             
             PlayerScript.PlayerParticlesScript.SpawnHealParticles();
         }
+        
     }
 }

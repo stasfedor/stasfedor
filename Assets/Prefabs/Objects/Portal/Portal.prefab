@@ -106,7 +106,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.1953125, y: 0.390625}
+    oldSize: {x: 0.625, y: 1.25}
     newSize: {x: 2.5, y: 5.92}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -128,15 +128,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _frameRate: 5
-  _loop: 1
-  _sprites:
-  - {fileID: -558979038, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
-  - {fileID: -1642089054, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
-  - {fileID: -1129607406, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
-  - {fileID: 1358749837, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
   _onComplete:
     m_PersistentCalls:
       m_Calls: []
+  _clips:
+  - _name: Idle
+    _sprites:
+    - {fileID: -558979038, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
+    - {fileID: -1642089054, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
+    - {fileID: -1129607406, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
+    - {fileID: 1358749837, guid: c83b917f396fca0459cf5a73d2167e6e, type: 3}
+    _loop: 1
+    _allowNextClip: 0
+    _onComplete:
+      m_PersistentCalls:
+        m_Calls: []
+  _isPlaying: 1
 --- !u!114 &6309315971996504570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +211,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2917270965392436587}
   m_LocalRotation: {x: 0, y: 0, z: -0.078633, w: 0.99690366}
-  m_LocalPosition: {x: 0.0004, y: 0.204, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 0.0004, y: 0.704, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2893405120084329574}
@@ -463,8 +470,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.2
-      minScalar: 0.15
+      scalar: 0.1
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -847,7 +854,7 @@ ParticleSystem:
     donutRadius: 0.09
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
-    m_Scale: {x: 2.08, y: 4.71, z: 1}
+    m_Scale: {x: 0.7, y: 1.57, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

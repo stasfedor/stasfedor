@@ -1386,7 +1386,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Potion1_17: -656740596
+      Potion1_53: 1908188053
       Potion1_51: -1373622430
       Potion1_52: -854000284
       Potion1_32: 1692116410
@@ -1445,7 +1445,7 @@ TextureImporter:
       Potion1_8: 1354464128
       Potion1_18: 1544889069
       Potion1_45: 1881455519
-      Potion1_53: 1908188053
+      Potion1_17: -656740596
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
