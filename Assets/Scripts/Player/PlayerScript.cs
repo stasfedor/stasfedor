@@ -19,10 +19,12 @@ namespace PlayerScripts
 
         [Header("Player Settings")] 
         [SerializeField] internal float startSpeed = 1f;
-
+        [Space]
         internal float speed = 0f;
         [SerializeField] internal float _jumpingPower = 1f;
         [SerializeField] internal float _jumpDamageSpeedAlpha;
+        [Space]
+        [SerializeField] internal float _slamDownVelocity;
 
         [Header("Player Stats")] 
         internal int _coins;

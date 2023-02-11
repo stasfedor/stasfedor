@@ -9,19 +9,18 @@ namespace PlayerScripts
     {
         [SerializeField] private PlayerScript PlayerScript;
 
-        [SerializeField] private ParticleSystem _hitParticles, _healParticles;
+        [Header("Game Particles")] 
+        [SerializeField] private ParticleSystem _hitParticles;
+        [SerializeField] private ParticleSystem _healParticles;
         
+        [Space] [Header("Hero Particles")]
         [SerializeField] private Components.SpawnComponent _footStepParticles;
+        [SerializeField] private Components.SpawnComponent _jumpParticles;
+        [SerializeField] private Components.SpawnComponent _slamJumpParticles;
         
+        [Header("Components")]
         [SerializeField] private HealthComponent HealthComponent;
 
-        public void SpawnCoinsFromDamage()
-        {
-            if (PlayerScript._coins > 0)
-            {
-                SpawnCoins();
-            }
-        }
 
         private void SpawnCoins()
         {
@@ -39,10 +38,14 @@ namespace PlayerScripts
             Debug.Log($"{numCoinsToDispose} coins lost. Total coins: {PlayerScript._coins}");
         }
         
-         public void SpawnHealParticles()
+        public void SpawnCoinsFromDamage()
         {
-            SpawnHeal();
+            if (PlayerScript._coins > 0)
+            {
+                SpawnCoins();
+            }
         }
+         
 
         private void SpawnHeal()
         {
@@ -57,9 +60,21 @@ namespace PlayerScripts
             Debug.Log($"{PlayerScript.PlayerAnimationScript._healValue} heal pick up. Total health: {HealthComponent._health}");
         }
 
+        public void SpawnHealParticles()
+        {
+            SpawnHeal();
+        }
         public void SpawnFootDust()
         { 
             _footStepParticles.Spawn();
+        }
+        public void SpawnJumpDust()
+        { 
+            _jumpParticles.Spawn();
+        }
+        public void SpawnSlamJumpDust()
+        { 
+            _slamJumpParticles.Spawn();
         }
     }
 }

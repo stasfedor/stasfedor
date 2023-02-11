@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
+using Utils;
 
 namespace PlayerScripts
 {
@@ -57,9 +58,16 @@ namespace PlayerScripts
             GroundLogick();
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
+        private void OnCollisionEnter2D(Collision2D other)
         {
-
+            if (other.gameObject.IsInLayer(_canJumpFromThis_Layer[0]))
+            {
+                var contact = other.contacts[0];
+                if (contact.relativeVelocity.y >= PlayerScript._slamDownVelocity)
+                {
+                    PlayerScript.PlayerParticlesScript.SpawnSlamJumpDust();
+                } 
+            }
         }
 
         private void OnCollisionStay2D(Collision2D col)

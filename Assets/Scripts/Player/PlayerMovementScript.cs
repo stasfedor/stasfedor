@@ -3,6 +3,7 @@ using System.Buffers.Text;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PlayerScripts
 {
@@ -32,6 +33,7 @@ namespace PlayerScripts
         {
             Debug.Log("PlayerMovementScript Starting");
             _rb2d.velocity = new Vector2(0, 0);
+            var input = PlayerScript.PlayerNewInputScript.GetComponent<InputAction>();
         }
 
         void Update()
@@ -82,10 +84,10 @@ namespace PlayerScripts
                 
             }
 
-            if (_rb2d.velocity.y > 0 && _direction.y < .7f && _isJumping)
+            if (_rb2d.velocity.y > 0 && _direction.y < .7f) //&& _isJumping)
             {
                 yVelocity *= 0.5f;
-                //_rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * 0.5f);
+                _rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * 0.5f);
             }
             return yVelocity;
         }
@@ -99,13 +101,23 @@ namespace PlayerScripts
             {
                 _canDoubleJump = true;
                 yVelocity += _jumpingPower;
+                PlayerScript.PlayerParticlesScript.SpawnJumpDust();
             } 
             if (_canDoubleJump)
             {
                 yVelocity = _jumpingPower;
+                PlayerScript.PlayerParticlesScript.SpawnJumpDust();
                 _canDoubleJump = false;
             }
             return yVelocity;
+        }
+
+        public void SetLockInput(PlayerInput input, bool isLocked)
+        {
+            if (input != null)
+            {
+                input.enabled = false;
+            }
         }
 
     }

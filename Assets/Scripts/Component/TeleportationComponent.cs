@@ -1,8 +1,5 @@
-using Mono.Cecil;
 using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
 using PlayerScripts;
 
 namespace Components
@@ -21,7 +18,6 @@ namespace Components
         public void Teleport(GameObject target)
         {
             PlayerScript.PlayerAnimationScript._animator.SetTrigger(IsTeleport);
-            
             PlayerScript.PlayerCollisionScript._rb2d.simulated = false;
             StartCoroutine(Delay(target));
             
@@ -34,7 +30,7 @@ namespace Components
             StartCoroutine(TeleportCoroutine(target));
         }
         
-        IEnumerator Delay2()
+        IEnumerator Delay2(GameObject target)
         {
             yield return new WaitForSeconds(_circlesTime*2f);
             PlayerScript.PlayerCollisionScript._rb2d.simulated = true;
@@ -48,11 +44,11 @@ namespace Components
                 moveTime += Time.deltaTime;
                 var progress = moveTime / _moveTime;
                 target.transform.position =
-                    Vector3.Lerp(target.transform.position, _destinationTransform.position, progress);
+                    Vector2.Lerp(target.transform.position, _destinationTransform.position, progress);
                 
             }
 
-            StartCoroutine(Delay2());
+            StartCoroutine(Delay2(target));
             yield return null;
         }
     }
