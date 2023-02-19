@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Components;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace PlayerScripts
@@ -12,6 +13,8 @@ namespace PlayerScripts
         [SerializeField] private HealthComponent HealthComponent;
 
         internal Animator _animator;
+        [SerializeField] private AnimatorController _armed;
+        [SerializeField] private AnimatorController _unArmed;
         
         private Rigidbody2D _rb2d => PlayerScript.PlayerCollisionScript._rb2d;
         private Vector2 _direction => PlayerScript.PlayerMovementScript._direction;
@@ -26,12 +29,16 @@ namespace PlayerScripts
         private static readonly int OnHeal          = Animator.StringToHash("OnHeal");
         private static readonly int Health          = Animator.StringToHash("Lifes");
         
-
         [SerializeField] private SpawnComponent _footStepParticles;
-        
         private float _damageJumpingSpeed => PlayerScript._jumpingPower * PlayerScript._jumpDamageSpeedAlpha;
 
         internal int _healValue;
+
+        internal bool _isArmed
+        {
+            get => PlayerScript._isArmed;
+            set => PlayerScript._isArmed = value;
+        }
 
         private void Awake()
         {
@@ -43,6 +50,7 @@ namespace PlayerScripts
         private void Start()
         {
             Debug.Log("PlayerAnimationScript Starting");
+            if (_isArmed) _animator.runtimeAnimatorController = _armed;
         }
 
         private void FixedUpdate()
@@ -99,8 +107,9 @@ namespace PlayerScripts
 
         public void TakeDamage()
         {
-            PlayerScript.PlayerMovementScript._isJumping = false;
-            _rb2d.velocity = new Vector2(_rb2d.velocity.x, _damageJumpingSpeed);
+            //PlayerScript.PlayerMovementScript._isJumping = false;
+            _rb2d.AddForce(Vector2.up * _damageJumpingSpeed, ForceMode2D.Impulse);
+            //_rb2d.velocity = new Vector2(_rb2d.velocity.x, _damageJumpingSpeed);
             _animator.SetTrigger(OnHit);
             _animator.SetFloat(Health, HealthComponent._health);
             PlayerScript.PlayerParticlesScript.SpawnCoinsFromDamage();
@@ -115,6 +124,13 @@ namespace PlayerScripts
             _animator.SetFloat(Health, HealthComponent._health);
             
             PlayerScript.PlayerParticlesScript.SpawnHealParticles();
+        }
+        
+        public void ArmHero()
+        {
+            _isArmed = true;
+            //PlayerScript._isArmed = true;
+            _animator.runtimeAnimatorController = _armed;
         }
         
     }

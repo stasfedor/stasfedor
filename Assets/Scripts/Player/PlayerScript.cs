@@ -18,16 +18,28 @@ namespace PlayerScripts
         
 
         [Header("Player Settings")] 
+        [Header("Speed and others")]
         [SerializeField] internal float startSpeed = 1f;
-        [Space]
-        internal float speed = 0f;
         [SerializeField] internal float _jumpingPower = 1f;
         [SerializeField] internal float _jumpDamageSpeedAlpha;
-        [Space]
+        
+        [Header("Animations")]
         [SerializeField] internal float _slamDownVelocity;
+        
+        [Header("Attacks Damage")] 
+        [SerializeField] internal float _attack1Damage;
+        [SerializeField] internal float _attack2Damage;
+        [SerializeField] internal float _attack3Damage;
 
-        [Header("Player Stats")] 
+        [Header("Stats")] 
         internal int _coins;
+
+        [Header("Statuses")] 
+        [SerializeField] public bool _isArmed;
+        
+        [Space(10)]
+        
+        internal float speed = 0f;
 
         private void Awake()
         {
@@ -57,5 +69,7 @@ namespace PlayerScripts
             _coins += coins;
             Debug.Log($"{coins} coins added. Total coins: {_coins}");
         }
+
+        
     }
 }

@@ -17,23 +17,27 @@ namespace PlayerScripts
         private float _jumpingPower => PlayerScript._jumpingPower;
         private float _damageJumpingSpeed => PlayerScript._jumpingPower * 5f;
 
-        internal bool _isJumping;
+        internal bool _isJumping, _jumpWasPressed;
         private bool _canDoubleJump;
 
 
         private bool _isStand => PlayerScript.PlayerCollisionScript._isStand;
+        
+        
 
         
 
         private void Awake()
         {
             Debug.Log("PlayerMovementScript Awake Starting");
+            
         }
         void Start()
         {
             Debug.Log("PlayerMovementScript Starting");
             _rb2d.velocity = new Vector2(0, 0);
-            var input = PlayerScript.PlayerNewInputScript.GetComponent<InputAction>();
+            InputAction input = PlayerScript.PlayerNewInputScript.GetComponent<InputAction>();
+            
         }
 
         void Update()
@@ -67,7 +71,7 @@ namespace PlayerScripts
         {
             float yVelocity = _rb2d.velocity.y;
             _isJumping = _direction.y > 0;
-
+            if (_direction.y > 0) _jumpWasPressed = true;
             if (_isStand)
             {
                 _canDoubleJump = true;
@@ -81,13 +85,13 @@ namespace PlayerScripts
                     _canDoubleJump = true;
                     _rb2d.AddForce(Vector2.up * _jumpingPower, ForceMode2D.Impulse);
                 }
-                
             }
 
-            if (_rb2d.velocity.y > 0 && _direction.y < .7f) //&& _isJumping)
+            if (_rb2d.velocity.y > 0 && !_isJumping && _jumpWasPressed)
             {
-                yVelocity *= 0.5f;
-                _rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * 0.5f);
+                _jumpWasPressed = false;
+                yVelocity *= .5f;
+                _rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * .5f);
             }
             return yVelocity;
         }

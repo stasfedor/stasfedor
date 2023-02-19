@@ -1,9 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
+using Components;
 using UnityEngine;
+using UnityEditor;
 using Utils;
+
 
 namespace PlayerScripts
 {
@@ -16,8 +15,8 @@ namespace PlayerScripts
 
         internal Rigidbody2D _rb2d;
 
-        [Header("Ground Check System")] [SerializeField]
-        private LayerMask[] _canJumpFromThis_Layer;
+        [Header("Ground Check System")] 
+        [SerializeField] private LayerMask[] _canJumpFromThis_Layer;
         [SerializeField] private Transform groundCheckPoint1, groundCheckPoint2;
         [SerializeField] private float _groundCheckRadius;
         
@@ -25,12 +24,12 @@ namespace PlayerScripts
         [SerializeField] float _interactCheckRadius;
         private Collider2D[] _interactResult = new Collider2D[1];
         [SerializeField] private LayerMask _interactebleLayer;
-        
+
+        [Header("Attack1")] 
+        [SerializeField] private CheckCircleOverlap _attack1Range;
 
         [Header("Bools")] internal bool _isStand;
         
-
-
         private void Awake()
         {
             Debug.Log("PlayerCollisionScript Awake Starting" + _rb2d);
@@ -87,19 +86,21 @@ namespace PlayerScripts
             else _isStand = false;
         }
 
-        
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
-            Gizmos.color = IsGrounded1() ? Color.green : Color.red;
-            Gizmos.DrawSphere(groundCheckPoint1.position, _groundCheckRadius);
-            Gizmos.color = IsGrounded2() ? Color.green : Color.red;
-            Gizmos.DrawSphere(groundCheckPoint2.position, _groundCheckRadius);
-            //Debug.DrawRay(groundCheckPoint1.position, new Vector3(0f, -_groundCheckRadius, 0f), IsGrounded1() ? Color.green : Color.red);
-            //Debug.DrawRay(groundCheckPoint2.position, new Vector3(0f, -_groundCheckRadius, 0f), IsGrounded2() ? Color.green : Color.red);
+            Handles.color = IsGrounded1() ? GizmosColors.TransparentGreen : GizmosColors.TransparentRed;
+            Handles.DrawSolidDisc(groundCheckPoint1.position, Vector3.forward, _groundCheckRadius);
+            Handles.color = IsGrounded2() ? GizmosColors.TransparentGreen : GizmosColors.TransparentRed;
+            Handles.DrawSolidDisc(groundCheckPoint2.position, Vector3.forward, _groundCheckRadius);
+            
+            Handles.color = GizmosColors.TransparentWhiteBlue;
+            Handles.DrawSolidDisc(transform.position, Vector3.forward, _interactCheckRadius);
         }
-        
-        internal void Interact()
+#endif
+
+        public void Interact()
         {
             var size =  Physics2D.OverlapCircleNonAlloc(transform.position, _interactCheckRadius, 
                                                                     _interactResult, _interactebleLayer);
@@ -108,6 +109,19 @@ namespace PlayerScripts
                 var interacteble = _interactResult[i].GetComponent<Components.InteractibleObject>();
                 if (interacteble != null) interacteble.Interact();
             }
+        }
+        
+        public void Attack1()
+        {
+           var gos =  _attack1Range.GetObjectsInRange();
+           foreach (var go in gos)
+           {
+               var hp = go.GetComponent<HealthComponent>();
+               if (hp != null && go.CompareTag("Enemy"))
+               {
+                   hp.ApplyHealthDelta(-PlayerScript._attack1Damage);
+               }
+           }
         }
     }
 }
