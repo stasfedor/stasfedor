@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Components;
 using UnityEditor.Animations;
 using UnityEngine;
@@ -15,7 +13,7 @@ namespace PlayerScripts
         internal Animator _animator;
         [SerializeField] private AnimatorController _armed;
         [SerializeField] private AnimatorController _unArmed;
-        
+         
         private Rigidbody2D _rb2d => PlayerScript.PlayerCollisionScript._rb2d;
         private Vector2 _direction => PlayerScript.PlayerMovementScript._direction;
         
