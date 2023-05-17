@@ -31,11 +31,13 @@ namespace PlayerScripts
         private float _damageJumpingSpeed => PlayerScript._jumpingPower * PlayerScript._jumpDamageSpeedAlpha;
 
         internal int _healValue;
+        
+        private float _currentHealth;
 
         internal bool _isArmed
         {
-            get => PlayerScript._isArmed;
-            set => PlayerScript._isArmed = value;
+            get => PlayerScript._session.Data.IsArmed;
+            set => PlayerScript._session.Data.IsArmed = value;
         }
 
         private void Awake()
@@ -48,7 +50,10 @@ namespace PlayerScripts
         private void Start()
         {
             Debug.Log("PlayerAnimationScript Starting");
-            if (_isArmed) _animator.runtimeAnimatorController = _armed;
+            UpdateHeroWeapon();
+            
+            var health = GetComponent<HealthComponent>();
+            health.SetHealth(PlayerScript._session.Data.Health);
         }
 
         private void FixedUpdate()
@@ -118,17 +123,28 @@ namespace PlayerScripts
             _animator.SetTrigger(OnHeal);
 
             _healValue = (int)Math.Ceiling(HealthComponent._health - _animator.GetFloat(Health));
+
+            _currentHealth = _animator.GetFloat(Health);
             
             _animator.SetFloat(Health, HealthComponent._health);
             
             PlayerScript.PlayerParticlesScript.SpawnHealParticles();
         }
+
+        public void OnHealthChange(float currentHealth)
+        {
+            PlayerScript._session.Data.Health = currentHealth;
+        }
         
         public void ArmHero()
         {
-            _isArmed = true;
-            //PlayerScript._isArmed = true;
-            _animator.runtimeAnimatorController = _armed;
+            PlayerScript._session.Data.IsArmed = true;
+            UpdateHeroWeapon();
+        }
+
+        private void UpdateHeroWeapon()
+        {
+            _animator.runtimeAnimatorController = PlayerScript._session.Data.IsArmed ? _armed : _unArmed;
         }
         
     }

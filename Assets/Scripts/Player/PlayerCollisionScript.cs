@@ -29,7 +29,7 @@ namespace PlayerScripts
         [SerializeField] private CheckCircleOverlap _attack1Range;
 
         [Header("Bools")] internal bool _isStand;
-        
+
         private void Awake()
         {
             Debug.Log("PlayerCollisionScript Awake Starting" + _rb2d);
@@ -62,10 +62,16 @@ namespace PlayerScripts
             if (other.gameObject.IsInLayer(_canJumpFromThis_Layer[0]))
             {
                 var contact = other.contacts[0];
-                if (contact.relativeVelocity.y >= PlayerScript._slamDownVelocity)
+                if (contact.relativeVelocity.y >= PlayerScript._slamDownVelocity && contact.relativeVelocity.y < PlayerScript._damageVelocity)
                 {
                     PlayerScript.PlayerParticlesScript.SpawnSlamJumpDust();
-                } 
+                }
+
+                if (contact.relativeVelocity.y >= PlayerScript._damageVelocity)
+                {
+                    GetComponent<HealthComponent>().ApplyHealthDelta(-1*((contact.relativeVelocity.y-PlayerScript._damageVelocity)/(contact.relativeVelocity.y/PlayerScript._heightDamageModify)));
+                    PlayerScript.PlayerParticlesScript.SpawnSlamJumpDustHeight();
+                }
             }
         }
 
@@ -111,7 +117,7 @@ namespace PlayerScripts
             }
         }
         
-        public void Attack1()
+        public void DoAttack1()
         {
            var gos =  _attack1Range.GetObjectsInRange();
            foreach (var go in gos)

@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Components;
+using Model;
 using UnityEngine;
 
 namespace PlayerScripts
@@ -25,17 +27,19 @@ namespace PlayerScripts
         
         [Header("Animations")]
         [SerializeField] internal float _slamDownVelocity;
+        [SerializeField] internal float _damageVelocity;
+        [SerializeField] internal int _heightDamageModify;
         
         [Header("Attacks Damage")] 
         [SerializeField] internal float _attack1Damage;
         [SerializeField] internal float _attack2Damage;
         [SerializeField] internal float _attack3Damage;
 
-        [Header("Stats")] 
-        internal int _coins;
+        [Header("Stats")]
 
-        [Header("Statuses")] 
-        [SerializeField] public bool _isArmed;
+        [Header("Statuses")]
+
+        internal GameSession _session; 
         
         [Space(10)]
         
@@ -49,7 +53,8 @@ namespace PlayerScripts
         private void Start()
         {
             Debug.Log("Main PlayerScript Starting");
-            _coins = 0;
+
+            _session = FindObjectOfType<GameSession>();
         }
 
         void Update()
@@ -61,13 +66,11 @@ namespace PlayerScripts
         {
                 
         }
-        
-        
 
         public void AddCoins(int coins)
         {
-            _coins += coins;
-            Debug.Log($"{coins} coins added. Total coins: {_coins}");
+            _session.Data.Coins += coins;
+            Debug.Log($"{coins} coins added. Total coins: {_session.Data.Coins}");
         }
 
         

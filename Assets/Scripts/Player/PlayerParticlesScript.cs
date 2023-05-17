@@ -16,7 +16,7 @@ namespace PlayerScripts
         [Space] [Header("Hero Particles")]
         [SerializeField] private Components.SpawnComponent _footStepParticles;
         [SerializeField] private Components.SpawnComponent _jumpParticles;
-        [SerializeField] private Components.SpawnComponent _slamJumpParticles;
+        [SerializeField] private Components.SpawnComponent _slamJumpParticles, _slamJumpHeightParticles;
         
         [Header("Components")]
         [SerializeField] private HealthComponent HealthComponent;
@@ -24,8 +24,8 @@ namespace PlayerScripts
 
         private void SpawnCoins()
         {
-            int numCoinsToDispose = Mathf.Min(PlayerScript._coins, 5);
-            PlayerScript._coins -= numCoinsToDispose;
+            int numCoinsToDispose = Mathf.Min(PlayerScript._session.Data.Coins, 5);
+            PlayerScript._session.Data.Coins -= numCoinsToDispose;
                 
             _hitParticles.gameObject.SetActive(true);
                 
@@ -35,12 +35,12 @@ namespace PlayerScripts
                 
             _hitParticles.Play();
             
-            Debug.Log($"{numCoinsToDispose} coins lost. Total coins: {PlayerScript._coins}");
+            Debug.Log($"{numCoinsToDispose} coins lost. Total coins: {PlayerScript._session.Data.Coins}");
         }
         
         public void SpawnCoinsFromDamage()
         {
-            if (PlayerScript._coins > 0)
+            if (PlayerScript._session.Data.Coins > 0)
             {
                 SpawnCoins();
             }
@@ -75,6 +75,11 @@ namespace PlayerScripts
         public void SpawnSlamJumpDust()
         { 
             _slamJumpParticles.Spawn();
+        }
+        
+        public void SpawnSlamJumpDustHeight()
+        { 
+            _slamJumpHeightParticles.Spawn();
         }
     }
 }

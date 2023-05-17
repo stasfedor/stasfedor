@@ -5009,6 +5009,53 @@ MonoBehaviour:
   _target: {fileID: 2039223187}
   _prefab:
   - {fileID: 9149861179523590398, guid: c6445aaf169013942ba8c2f1ba2b0934, type: 3}
+--- !u!1 &2094630503
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2094630504}
+  - component: {fileID: 2094630505}
+  m_Layer: 7
+  m_Name: SlamSpawnHeightPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2094630504
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094630503}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.014, y: -0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4875342448961412786}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2094630505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094630503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83c8827e2fa144b99c27ffecaa452a17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 2094630504}
+  _prefab:
+  - {fileID: 9149861179523590398, guid: d3ac7803768962444bcbbc3164abeff3, type: 3}
 --- !u!1 &4875342447822081241
 GameObject:
   m_ObjectHideFlags: 0
@@ -9990,6 +10037,7 @@ Transform:
   - {fileID: 1521531063}
   - {fileID: 2039223187}
   - {fileID: 2038188385}
+  - {fileID: 2094630504}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10202,10 +10250,11 @@ MonoBehaviour:
   _jumpingPower: 9
   _jumpDamageSpeedAlpha: 0.75
   _slamDownVelocity: 8
+  _damageVelocity: 22
+  _heightDamageModify: 10
   _attack1Damage: 1
   _attack2Damage: 0
   _attack3Damage: 0
-  _isArmed: 0
 --- !u!114 &4875342448961412797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10304,6 +10353,7 @@ MonoBehaviour:
   _footStepParticles: {fileID: 4875342449153059447}
   _jumpParticles: {fileID: 1521531064}
   _slamJumpParticles: {fileID: 2039223186}
+  _slamJumpHeightParticles: {fileID: 2094630505}
   HealthComponent: {fileID: 4875342448961412744}
 --- !u!114 &4875342448961412744
 MonoBehaviour:
@@ -10355,6 +10405,21 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: PlayerScripts.PlayerAnimationScript, Assembly-CSharp
         m_MethodName: TakeHeal
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _onChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4875342448961412795}
+        m_TargetAssemblyTypeName: PlayerScripts.PlayerAnimationScript, Assembly-CSharp
+        m_MethodName: OnHealthChange
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
