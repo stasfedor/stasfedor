@@ -22,5 +22,7 @@ namespace Components
     public class EnterEvent : UnityEvent<GameObject>
     {
         
+        
+         
     }
 }

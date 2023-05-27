@@ -72,11 +72,18 @@ namespace PlayerScripts
             float yVelocity = _rb2d.velocity.y;
             _isJumping = _direction.y > 0;
             if (_direction.y > 0) _jumpWasPressed = true;
+            
             if (_isStand)
             {
                 _canDoubleJump = true;
             }
 
+            if (PlayerScript.PlayerCollisionScript._isOnWall)
+            {
+                yVelocity = -PlayerScript._wallSlidingSpeed;
+                //_canDoubleJump = true;
+            }
+            
             if (_isJumping)
             {
                 yVelocity = CalculateJumpVelocity(yVelocity);
@@ -86,6 +93,7 @@ namespace PlayerScripts
                     _rb2d.AddForce(Vector2.up * _jumpingPower, ForceMode2D.Impulse);
                 }
             }
+            else
 
             if (_rb2d.velocity.y > 0 && !_isJumping && _jumpWasPressed)
             {
@@ -93,6 +101,7 @@ namespace PlayerScripts
                 yVelocity *= .5f;
                 _rb2d.velocity = new Vector2(_rb2d.velocity.x, _rb2d.velocity.y * .5f);
             }
+            
             return yVelocity;
         }
 

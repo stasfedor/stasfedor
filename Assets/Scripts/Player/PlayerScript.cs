@@ -24,6 +24,7 @@ namespace PlayerScripts
         [SerializeField] internal float startSpeed = 1f;
         [SerializeField] internal float _jumpingPower = 1f;
         [SerializeField] internal float _jumpDamageSpeedAlpha;
+        [SerializeField] internal float _wallSlidingSpeed;
         
         [Header("Animations")]
         [SerializeField] internal float _slamDownVelocity;

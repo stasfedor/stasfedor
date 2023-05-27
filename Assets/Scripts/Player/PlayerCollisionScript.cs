@@ -1,3 +1,5 @@
+using System;
+using System.Security.Cryptography.X509Certificates;
 using Components;
 using UnityEngine;
 using UnityEditor;
@@ -14,11 +16,16 @@ namespace PlayerScripts
         [SerializeField] private PlayerScript PlayerScript;
 
         internal Rigidbody2D _rb2d;
+        private float _defaultGravityScale;
+        private float TOLERANCE = 0.31f;
 
         [Header("Ground Check System")] 
         [SerializeField] private LayerMask[] _canJumpFromThis_Layer;
         [SerializeField] private Transform groundCheckPoint1, groundCheckPoint2;
         [SerializeField] private float _groundCheckRadius;
+
+        [Header("Walls System")] 
+        [SerializeField] private LayerCheck _wallCheck;
         
         [Header("Interact")] 
         [SerializeField] float _interactCheckRadius;
@@ -28,12 +35,15 @@ namespace PlayerScripts
         [Header("Attack1")] 
         [SerializeField] private CheckCircleOverlap _attack1Range;
 
-        [Header("Bools")] internal bool _isStand;
+        [Header("Bools")] 
+        internal bool _isStand;
+        internal bool _isOnWall;
 
         private void Awake()
         {
             Debug.Log("PlayerCollisionScript Awake Starting" + _rb2d);
             _rb2d = GetComponent<Rigidbody2D>();
+            _defaultGravityScale = _rb2d.gravityScale;
         }
         void Start()
         {
@@ -54,7 +64,8 @@ namespace PlayerScripts
 
         void Update()
         {
-            GroundLogick();
+            GroundLogic();
+            WallLogic();
         }
 
         private void OnCollisionEnter2D(Collision2D other)
@@ -85,7 +96,7 @@ namespace PlayerScripts
 
         }
 
-        private void GroundLogick()
+        internal void GroundLogic()
         {
             if (IsGrounded1() || IsGrounded2())
                 _isStand = true;
@@ -128,6 +139,20 @@ namespace PlayerScripts
                    hp.ApplyHealthDelta(-PlayerScript._attack1Damage);
                }
            }
+        }
+
+        private void WallLogic()
+        {
+            if (_wallCheck.IsTouchingLayer && Math.Abs(PlayerScript.PlayerMovementScript._direction.x - transform.localScale.x) < TOLERANCE)
+            {
+                _isOnWall = true;
+                _rb2d.gravityScale = 0f;
+            }
+            else
+            {
+                _isOnWall = false;
+                _rb2d.gravityScale = _defaultGravityScale;
+            }
         }
     }
 }
